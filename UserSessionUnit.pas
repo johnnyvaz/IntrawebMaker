@@ -11,7 +11,7 @@ uses
   IWUserSessionBase, SysUtils, Classes, IdHashMessageDigest,
   System.Generics.Collections, IWAppForm, IWInit, IniFiles, U_DM,
   System.Math, Vcl.Graphics, EncdDecd, IWCompText, DateUtils, Winapi.Windows, Winapi.Messages, System.Variants,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, U_FrmPadrao, IWVCLComponent,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, IWVCLComponent,
   IWBaseLayoutComponent, IWBaseContainerLayout, IWContainerLayout, IWHTMLTag,
   IWTemplateProcessorHTML, IWCompButton, IWVCLBaseControl, IWBaseControl,
   IWBaseHTMLControl, IWControl, IWCompEdit, Data.DB, IWCompListbox, IWCompLabel,
@@ -86,7 +86,6 @@ implementation
 
 uses funcoes, 
 ServerController,
-U_FrmLogin,
 U_FrmIndex,
 U_FrmDesenho;
 {
@@ -185,7 +184,7 @@ begin
   if Acao = 'Encerrar' then
   begin
     TIWAppForm(WebApplication.ActiveForm).Release;
-    TFrmLogin.Create(WebApplication).Show;
+    //TFrmLogin.Create(WebApplication).Show;
   end;
 
   if Acao = 'Iniciar' then

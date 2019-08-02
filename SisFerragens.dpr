@@ -12,7 +12,8 @@ uses
   funcoes in 'funcoes.PAS',
   SweetAlerts in 'SweetAlerts.pas',
   U_DM in 'U_DM.pas' {DM: TDataModule},
-  U_FrmDesenho in 'form\U_FrmDesenho.pas' {frmDesenho: TIWAppForm};
+  U_FrmDesenho in 'form\U_FrmDesenho.pas' {frmDesenho: TIWAppForm},
+  U_FrmPadrao in 'U_FrmPadrao.pas' {FrmPadrao: TIWAppForm};
 
 {$R *.res}
 

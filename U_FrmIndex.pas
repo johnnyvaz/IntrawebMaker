@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, U_FrmPadrao, IWVCLComponent,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,U_FrmPadrao, IWVCLComponent,
   IWBaseLayoutComponent, IWBaseContainerLayout, IWContainerLayout,
   IWTemplateProcessorHTML, IWCompButton, IWVCLBaseControl, IWBaseControl,
   IWBaseHTMLControl, IWControl, IWCompEdit, IWCompLabel, IWCompText;
