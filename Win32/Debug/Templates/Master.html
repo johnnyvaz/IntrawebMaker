@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <title>AnDes Sistemas</title>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+
+  <!-- jQuery -->
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../wwwroot/plugins/datatables/jquery.dataTables.min.css"/>
+  <script type="text/javascript" src="../wwwroot/plugins/datatables/jquery.dataTables.min.js"></script>
+  <link href="../wwwroot/node_modules/toastr/build/toastr.css" rel="stylesheet" type="text/css" />
+  <script src="../wwwroot/js/jquery.twbsPagination.min.js"></script> 
+  <script src="../wwwroot/js/sorttable.js"></script> 
+  
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<!-- <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed"> -->
+  <body class="hold-transition sidebar-mini sidebar-collapse">
+  <div class="clearfix" style="display:none">{%IWACAO%}{%IWBTNACAO%}</div>
+  <div class="">
+    <!-- Navbar -->
+    <nav id="nav" class="main-header navbar navbar-expand navbar-white navbar-light border-bottom">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a id="dropdown" class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="#" class="nav-link">{%Empresa%}</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="#" class="nav-link">
+            <!-- conteúdo do cabeçalho da pagina interna -->
+          </a>
+        </li>
+      </ul>
+      
+      <!-- SEARCH FORM -->
+      <form class="form-inline ml-3">
+        <div class="input-group input-group-sm">
+          <input class="form-control form-control-navbar" type="search" placeholder="Procurar" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-navbar" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+      
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <!-- Notifications Dropdown Menu -->
+        <li class="nav-item">
+          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
+            class="fas fa-th-large"></i>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+      <!-- /.navbar -->
+      
+      <!-- Main Sidebar Container -->
+      <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="#" class="brand-link">
+          <img src="" alt="" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
+          <span class="brand-text font-weight-light">AnDes Sistemas</span>
+        </a>
+        
+        <!-- Sidebar -->
+        <div class="sidebar">
+          
+          <!-- Sidebar Menu -->
+          <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+              
+                {%MenuPrincipal%}
+                
+                
+              </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+          </div>
+          <!-- /.sidebar -->
+        </aside>
+        
+        <!-- Content Wrapper. Contains page content -->
+        <div class="">
+        
+          <!-- Main content -->
+          <section class="content">
+            
+            $body
+            
+            </section>
+                  <!-- /.content -->
+                </div>
+                <!-- /.content-wrapper -->
+                
+                <!-- Control Sidebar -->
+                <aside class="control-sidebar control-sidebar-dark">
+                  <!-- Control sidebar content goes here -->
+                </aside>
+                <!-- /.control-sidebar -->
+                
+                <!-- Main Footer -->
+                <!-- <footer  id="footer" class="main-footer">
+                  rodapé
+                  <div class="float-right d-none d-sm-inline-block">
+                  
+                  </div>
+                </footer> -->
+              </div>
+              <!-- ./wrapper -->
+              
+              <!-- REQUIRED SCRIPTS -->
+              <!-- Bootstrap -->
+              <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+              <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+              <script src="dist/js/adminlte.js"></script>
+              <!-- jQuery Mapael -->
+              <script src="plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+              <script src="plugins/raphael/raphael.min.js"></script>
+              <script src="plugins/jquery-mapael/jquery.mapael.min.js"></script>
+              <script src="plugins/jquery-mapael/maps/world_countries.min.js"></script>
+              <!-- ChartJS -->
+              <script src="plugins/chart.js/Chart.min.js"></script>
+                            
+<!-- andes -->
+<!-- InputMask -->
+    <script src="plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="plugins/input-mask/jquery.inputmask.extensions.js"></script>
+		<script src="plugins/input-mask/jquery.mask.min.js"></script>	
+    
+    <script>$('.decimal2').mask('#.##0,00', {reverse: true});</script>		
+    <script>$('.decimal3').mask('#.##0,000', {reverse: true});</script>
+    <script>$('.decimal4').mask('#.##0,000', {reverse: true});</script>
+    <script>$('.decimal5').mask('#.##0,0000', {reverse: true});</script>			
+    <!--MASCARAS UTILIZADAS NOS CAMPOS DO PROJETO -->
+    
+    <script>$('.VENDEDOR_TELEFONE').mask('(99)9999-9999');</script>
+    <script>$('.VENDEDOR_CELULAR').mask('(99)99999-9999');</script>
+    <script>$('.VENDEDOR_CEP').mask('99.999-999');</script>
+    <script>$('.VENDEDOR_CNPJ').mask('99.999.999/9999-99');</script>
+    <script>$('.VENDEDOR_CPF').mask('999.999.999-99');</script>
+    
+    <script>$('.CLIENTE_TELEFONE').mask('(99)9999-9999');</script>
+    <script>$('.CLIENTE_CELULAR').mask('(99)99999-9999');</script>
+    <script>$('.CLIENTE_CEP').mask('99.999-999');</script>
+    <script>$('.CLIENTE_CNPJ').mask('99.999.999/9999-99');</script>
+    <script>$('.CLIENTE_CPF').mask('999.999.999-99');</script>
+    
+    <script src="plugins/sweetalert2/sweetalert2.all.min.js"></script> 
+
+    <script src="../wwwroot/node_modules/toastr/build/toastr.min.js">
+       
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "1000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    </script>
+    
+              <script> 
+                function SetaAcao(Acao, ID) {
+                  var x = Acao+'     ';
+                  document.getElementById('IWACAO').value = x.substring(5, 0)+ID;
+                  console.log("x = " + x + " ID = " + ID)
+                  AddChangedControl('IWACAO');   // colocar essa linha sempre que usar o onAsyncClick pois colocar o campo como alterado
+                  IWBTNACAO.click();
+                };
+
+                  function alteraMaiusculo(valor){
+                    document.getElementById(valor).value = document.getElementById(valor).value.toUpperCase();
+                  };
+
+                $('[data-mask]').inputmask();
+
+                </script>
+            </body>
+            </html>

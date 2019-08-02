@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="../wwwroot/dist/css/playground.css" rel="stylesheet" />
+    <script src="../wwwroot/dist/js/external/pep/pep.js"></script>
+    <script src="../wwwroot/dist/js/external/marked/marked.js"></script>
+    <script src="../wwwroot/dist/js/external/bezier-js/bezier.js"></script>
+    <script src="../wwwroot/dist/js/external/opentype/opentype.js"></script>
+
+    <script src="../wwwroot/dist/js/maker.js"></script>
+    <!-- <script src="../target/js/browser.maker.js"></script> -->
+    <script>
+        var makerjs = require('makerjs');
+    </script>
+
+    <script src="../wwwroot/dist/js/iexport.js"></script>
+    <script src="../wwwroot/dist/js/pointer.js"></script>
+    <script src="../wwwroot/dist/js/fonts.js"></script>
+    <script src="../wwwroot/dist/js/fontloader.js"></script>
+    <script src="../wwwroot/dist/js/playground.js"></script>
+    <script src="../wwwroot/dist/js/format-options.js"></script>
+    <!-- ------------------ -->
+    <script src="../wwwroot/dist/js/desenho.js"></script>
+
+    <link rel="stylesheet" href="../wwwroot/dist/css/desenho.css">	
+    <script>
+        var makerjs = require('makerjs');
+    </script>
+    <script src="../wwwroot/dist/js/pointer.js"></script>
+    <script src="../wwwroot/dist/js/playground.js"></script>
+    
+    <script>
+        //config
+        MakerJsPlayground.relativePath = '../examples/';
+        MakerJsPlayground.fullScreen = true;
+            
+    </script>
+    
+</head>
+<body>
+    <div class="main-layout">
+        <!-- <div class="clearfix" style="display:none">{%BTNLOAD%}{%BTNSALVAR%}</div> -->
+        
+        <!-- -------------------------- HEADER ---------------------------- -->
+        <div class="header tag left">
+            <div class="row">
+                <div class="input-group input-group-sm mb-1 col-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">ID</span>
+                    </div>
+                    {%ID%}
+                </div>
+                <div class="input-group input-group-sm mb-1 col-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Descricao</span>
+                    </div>
+                    {%DESCRICAO%}
+                </div>
+                <div class="input-group input-group-sm mb-1 col-4 ">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Medidas</span>
+                    </div>
+                    {%MEDIDAS%}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-group input-group-sm mb-1 col-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">DESENHO(avg)</span>
+                    </div>
+                    {%DESENHO%}
+                    <!-- <span id="des" class="form-control"></span> -->
+                </div>
+                <div class="input-group input-group-sm mb-1 col-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Json</span>
+                    </div>
+                    {%JSON%}
+                </div>
+                <div class="input-group input-group-sm mb-1 col-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Cantos</span>
+                    </div>
+                    {%CANTOS%}
+                </div>
+            </div>
+        </div>
+        <!-- -------------------------- AREA ---------------------------- -->
+        <section class="main tag" onmousemove="mouse(event)" onmouseout="clearCoor()"
+        id="blueprint-canvas">
+        <svg id="grid">
+            <defs>
+                <pattern id="pattern1" x="0" y="0" width=".1" height=".1">
+                    <line x1="0" y1="0" x2="0" y2="100%" class="grid-line-1"></line>
+                    <line x1="0" y1="0" x2="100%" y2="0" class="grid-line-1"></line>
+                </pattern>
+                <pattern id="pattern10" x="0" y="0" width="1" height="1">
+                    <line x1="0" y1="0" x2="0" y2="100%" class="grid-line-10"></line>
+                    <line x1="0" y1="0" x2="100%" y2="0" class="grid-line-10"></line>
+                </pattern>
+                <pattern id="gridPattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse" patternTransform="translate(0,0)">
+                    <rect id="gridPatternFill" fill="url(#pattern1)" width="100" height="100" x="0" y="0"></rect>
+                    <rect fill="url(#pattern10)" width="100%" height="100%" x="0" y="0"></rect>
+                </pattern>
+            </defs>
+            <rect fill="url(#gridPattern)" width="100%" height="100%" x="0" y="0"></rect>
+            <g id="crosshairs">
+                <line x1="-100%" x2="100%" y1="0" y2="0"></line>
+                <line x1="0" x2="0" y1="-100%" y2="100%"></line>
+            </g>
+        </svg>
+        <div id="view-params">
+                <div id="view" touch-action="none" class="noselect">
+                    <div id="view-svg-container"></div>
+                    <svg id="pointers" xmlns="http://www.w3.org/2000/svg"></svg>
+                    <div id="touch-shield"></div>
+                </div>
+                <div id="rendering-options-menu" class="noselect">
+                    <div class="view-controls">
+                        <br><div><label><input id="check-fit-on-screen" type="checkbox" checked onclick="if (this.checked) { MakerJsPlayground.fitOnScreen(); } else { MakerJsPlayground.fitNatural(); } MakerJsPlayground.render();" /> Preencher a Tela<span id="zoom-display" class="zoom-unit"></span></label></div>
+                        <div><label><input id="check-show-origin" type="checkbox" checked onclick="MakerJsPlayground.toggleClass('collapse-origin'); MakerJsPlayground.updateZoomScale();" /> Mostrar gride <span id="grid-unit" class="zoom-unit"></span></label></div>
+                    </div>
+                </div>
+            </div>
+        <script>
+                    // CÓDIGO QUE RENDERIZA O SVG GERANDO A IMAGEM NA TELA
+            // setTimeout(function(){
+            function maker() {
+                
+
+            var makerjs = require('makerjs');
+            
+            var model = {
+                
+                paths: {
+                    "0": new makerjs.paths.Line([0, 0], [100, 0]),
+                    "1": new makerjs.paths.Line([100, 0], [100, 150]),
+                    "2": new makerjs.paths.Line([100, 150], [200, 150])
+                }  
+            };
+        
+            return MakerJsPlayground.setProcessedModel(makerjs.model.center(model));
+        // }, 1000);
+            }
+            maker();
+        </script>
+    </section>  
+    <!-- -------------------------- NAV ---------------------------- -->
+    <section class="nav">
+        <button class="btn btn-block btn-outline-primary btn-sm" 
+        onclick="$('#selecionaPeca').modal('show')" ><u>S</u>elecionar Peça</button>
+        
+        <button class="btn btn-block btn-outline-primary btn-sm"
+        onclick="SetaAcao('Sal','');">Salvar</button>
+        
+        <button class="btn btn-block btn-outline-primary btn-sm"
+        onclick="SetaAcao('Sel',document.getElementById('ID').value);"> Cancelar<br><small class="text-muted">
+        Alterações não salvas</small></button>
+        
+        <button class="btn btn-block btn-outline-primary btn-sm"
+        onclick="SetaAcao('Inc','');">Cadastrar nova Peça</button>
+        
+        <button class="btn btn-block btn-outline-primary btn-sm">Duplicar</button>
+        <button class="btn btn-block btn-outline-primary btn-sm">Apagar</button>
+    </section>
+    <div class="mouse tag">
+        <h4 id="iniX"></h4>
+        <h4 id="iniY"></h4>
+        <!-- <p id="demo"></p> -->
+    </div>
+    <div class="tag descricao">
+        <label><input id="check-fit-on-screen" type="checkbox" checked onclick="if (this.checked) { MakerJsPlayground.fitOnScreen(); } else { MakerJsPlayground.fitNatural(); } MakerJsPlayground.render();" /> Preencher toda tela <span id="zoom-display"></span></label>
+        <label><input id="check-show-origin" type="checkbox" checked onclick="MakerJsPlayground.toggleClass('collapse-origin'); MakerJsPlayground.updateZoomScale();" /> Mostrar grade <span id="grid-unit"></span></label>
+        <label><input id="check-annotate" type="checkbox" onclick="MakerJsPlayground.toggleClass('collapse-annotation')" /> Mostrar Nomes</label>
+        <label><input id="check-flow" type="checkbox" onclick="MakerJsPlayground.toggleClass('collapse-flow')" /> Mostrar especificações</label>
+    </div>
+    <div class="historico tag">
+        <p>Criado em: {%CREATED_AT%} | Alterado em: {%UPDATED_AT%} | Usuário Logado: {%USUARIO_ID%}</p>
+    </div>
+
+<!-- MODAL PARA VISUALIZAR PEÇAS -->
+<div class="modal fade modal-largo" id="selecionaPeca">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Selecionar Peças</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="box-body container-fluid">
+                    <div class="box box-default">                            
+
+                                {%GRIDE%}
+                                
+                    </div>
+                </div>
+
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-success">Cadastrar nova Peça</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL PARA VISUALIZAR PEÇAS -->
+<div class="modal fade modal-largo" id="cadastrarPeca">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Cadastrar Nova Peça</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="box-body container-fluid">
+                    <div class="box box-default">                            
+                        <div class="row">
+                <div class="input-group input-group-sm mb-1 col-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">ID</span>
+                    </div>
+                    {%ID%}
+                </div>
+                <div class="input-group input-group-sm mb-1 col-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Descricao</span>
+                    </div>
+                    {%DESCRICAO%}
+                </div>
+                <div class="input-group input-group-sm mb-1 col-4 ">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Medidas</span>
+                    </div>
+                    {%MEDIDAS%}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-group input-group-sm mb-1 col-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">DESENHO(avg)</span>
+                    </div>
+                    {%DESENHO%}
+                    <!-- <span id="des" class="form-control"></span> -->
+                </div>
+                <div class="input-group input-group-sm mb-1 col-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Json</span>
+                    </div>
+                    {%JSON%}
+                </div>
+                <div class="input-group input-group-sm mb-1 col-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Cantos</span>
+                    </div>
+                    {%CANTOS%}
+                </div>
+            </div>
+                                
+                                
+                    </div>
+                </div>
+
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-success">Cadastrar nova Peça</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+</div>
+
+<script>
+    function load(){
+        $('#nav').hide()
+    }
+    load()
+
+    $(document).bind('keypress', function(event) {
+        if( event.which === 83 && event.shiftKey ) {
+            $('#selecionaPeca').modal('show')
+        }
+        if( event.which === 88 && event.shiftKey) {
+            $('#selecionaPeca').modal('hide')
+        } 
+    });
+    
+    function getfocusSel() {
+        document.getElementById("myAnchor").focus();
+    }
+    
+    function losefocus() {
+        document.getElementById("myAnchor").blur();
+    }
+    
+    function mouse(e) {
+        var x = e.clientX;
+        var y = e.clientY;
+        var coor = "Coordenadas: (" + x + "," + y + ")";
+        //document.getElementById("demo").innerHTML = coor;
+        document.getElementById("iniX").innerHTML = 'Horizontal = ' + x;
+        document.getElementById("iniY").innerHTML = 'Vertical = ' + y;
+    }
+    
+    function clearCoor() {
+        //   document.getElementById("demo").innerHTML = "";
+    }
+    
+    // $('div span').css('background-color','white')
+    // $('#nav').hide()  //para mostrar show()
+    
+    function CadastrarEvento(){
+        if (document.getElementById('DESCRICAO').value==""){
+            swal('Atenção!!!', 'Digite a DESCRIÇÃO !', 'warning');
+            document.getElementById('DESCRICAO').focus();
+            exit;
+        }
+        str1 = document.getElementById('dtInicio').value;	
+        str2 = document.getElementById('dtFinal').value;	
+        document.getElementById('IWACAO').value = 'idDat'+ str1 + str2;
+        AddChangedControl('IWACAO');	
+        BTNSALVAR.click();	  
+    }		
+
+    $(document).ready(function() {
+        $('#GRID').DataTable({
+            language: {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ registros por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+        });
+    });
+    
+
+</script>
+</body>
+<!-- 
+KEY_DOWN = 40;
+KEY_UP = 38;
+KEY_LEFT = 37;
+KEY_RIGHT = 39;
+
+KEY_END = 35;
+KEY_BEGIN = 36;
+
+KEY_BACK_TAB = 8;
+KEY_TAB = 9;
+KEY_SH_TAB = 16;
+KEY_ENTER = 13;
+KEY_ESC = 27;
+KEY_SPACE = 32;
+KEY_DEL = 46;
+
+KEY_A = 65;
+KEY_B = 66;
+KEY_C = 67;
+KEY_D = 68;
+KEY_E = 69;
+KEY_F = 70;
+KEY_G = 71;
+KEY_H = 72;
+KEY_I = 73;
+KEY_J = 74;
+KEY_K = 75;
+KEY_L = 76;
+KEY_M = 77;
+KEY_N = 78;
+KEY_O = 79;
+KEY_P = 80;
+KEY_Q = 81;
+KEY_R = 82;
+KEY_S = 83;
+KEY_T = 84;
+KEY_U = 85;
+KEY_V = 86;
+KEY_W = 87;
+KEY_X = 88;
+KEY_Y = 89;
+KEY_Z = 90;
+
+KEY_PF1 = 112;
+KEY_PF2 = 113;
+KEY_PF3 = 114;
+KEY_PF4 = 115;
+KEY_PF5 = 116;
+KEY_PF6 = 117;
+KEY_PF7 = 118;
+KEY_PF8 = 119; -->
+
+</html>

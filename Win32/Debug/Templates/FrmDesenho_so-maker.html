@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Maker.js Playground</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href="../wwwroot/dist/css/playground.css" rel="stylesheet" />
+    <script src="../wwwroot/dist/js/external/pep/pep.js"></script>
+    <script src="../wwwroot/dist/js/external/marked/marked.js"></script>
+    <script src="../wwwroot/dist/js/external/bezier-js/bezier.js"></script>
+    <script src="../wwwroot/dist/js/external/opentype/opentype.js"></script>
+
+    <script src="../wwwroot/dist/js/browser.maker.js"></script>
+    <script>
+        var makerjs = require('makerjs');
+    </script>
+
+    <script src="../wwwroot/dist/js/iexport.js"></script>
+    <script src="../wwwroot/dist/js/pointer.js"></script>
+    <script src="../wwwroot/dist/js/fonts.js"></script>
+    <script src="../wwwroot/dist/js/fontloader.js"></script>
+    <script src="../wwwroot/dist/js/playground.js"></script>
+    <script src="../wwwroot/dist/js/format-options.js"></script>
+    <script>
+        //config
+        // MakerJsPlayground.relativePath = '../demos/js/';
+        // MakerJsPlayground.fontDir = '../fonts/';
+    </script>
+
+</head>
+<body class="no-notes collapse-annotation collapse-flow collapse-insert-menu">
+    <main>  
+        <section id="blueprint-canvas">
+            <svg id="grid">
+                <defs>
+                    <pattern id="pattern1" x="0" y="0" width=".1" height=".1">
+                        <line x1="0" y1="0" x2="0" y2="100%" class="grid-line-1"></line>
+                        <line x1="0" y1="0" x2="100%" y2="0" class="grid-line-1"></line>
+                    </pattern>
+                    <pattern id="pattern10" x="0" y="0" width="1" height="1">
+                        <line x1="0" y1="0" x2="0" y2="100%" class="grid-line-10"></line>
+                        <line x1="0" y1="0" x2="100%" y2="0" class="grid-line-10"></line>
+                    </pattern>
+                    <pattern id="gridPattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse" patternTransform="translate(0,0)">
+                        <rect id="gridPatternFill" fill="url(#pattern1)" width="100" height="100" x="0" y="0"></rect>
+                        <rect fill="url(#pattern10)" width="100%" height="100%" x="0" y="0"></rect>
+                    </pattern>
+                </defs>
+                <rect fill="url(#gridPattern)" width="100%" height="100%" x="0" y="0"></rect>
+                <g id="crosshairs">
+                    <line x1="-100%" x2="100%" y1="0" y2="0"></line>
+                    <line x1="0" x2="0" y1="-100%" y2="100%"></line>
+                </g>
+            </svg>
+
+            <div id="view-params">
+                <div id="view" touch-action="none" class="noselect">
+                    <div id="view-svg-container"></div>
+                    <svg id="pointers" xmlns="http://www.w3.org/2000/svg"></svg>
+                    <div id="touch-shield"></div>
+                </div>
+                <div id="rendering-options-menu" class="noselect">
+                    <div class="view-controls">
+                        <br><div><label><input id="check-fit-on-screen" type="checkbox" checked onclick="if (this.checked) { MakerJsPlayground.fitOnScreen(); } else { MakerJsPlayground.fitNatural(); } MakerJsPlayground.render();" /> fit on screen <span id="zoom-display" class="zoom-unit"></span></label></div>
+                        <div><label><input id="check-show-origin" type="checkbox" checked onclick="MakerJsPlayground.toggleClass('collapse-origin'); MakerJsPlayground.updateZoomScale();" /> show grid <span id="grid-unit" class="zoom-unit"></span></label></div>
+                    </div>
+                </div>
+            </div>
+            <pre>
+
+            <div id="notes"></div>
+            </pre>
+        </section>
+    </main>
+
+    <script>
+        setTimeout(function(){
+            var makerjs = require('makerjs');
+                makerjs.$(new makerjs.paths.Line([0, 0], [20, 20])).addTo(this, "line")
+            var model = {
+
+                // paths: {
+                //     "0": new makerjs.paths.Line([0, 0], [100, 0]),
+                //     "1": new makerjs.paths.Line([100, 0], [100, 150]),
+                //     "2": new makerjs.paths.Line([100, 150], [200, 150])
+                // }  
+            };
+            var svg = makerjs.exporter.toSVG(model);
+            // var pathData = "M 95 35 L 59 35 L 48 0 L 36 35 L 0 35 L 29 56 L 18 90 L 48 69 L 77 90 L 66 56 Z";
+            // var model = makerjs.importer.fromSVGPathData(pathData);
+
+            MakerJsPlayground.setProcessedModel(makerjs.model.center(makerjs.paths  ));
+        }, 1000);
+    </script>
+</body>
+</html>
